@@ -39,7 +39,7 @@ class sound_scanner:
 		self.estado = "habla"
 		maximo = 1
 		equ = ["0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F","G","H","I","J"]
-		prom = [len(equ)]*70
+		prom = [len(equ)]*40
 		index = 0
 		while self.stream.is_active():
 			try:
@@ -63,12 +63,12 @@ class sound_scanner:
 						self.estado = "calla"
 				else:
 					self.estado = "calla"
-				# print(f"\r\r{self.estado} | {index} | {round(nivel, 1)} | {round(maximo, 1)} | {''.join(equ[:int(nivel)])}", end="  "*(len(equ)-int(nivel)))
+				#print(f"\r\r{self.estado} | {index} | {round(nivel, 1)} | {round(maximo, 1)} | {''.join(equ[:int(nivel)])}", end="  "*(len(equ)-int(nivel)))
 
-				self.fun(self.estado == "habla")
+				self.fun(self.estado == "habla", 0.035)
 				self.anterior = nivel
 				# refresh every 0.3 seconds 
-				time.sleep(0.1)
+				time.sleep(0.001)
 			except Exception as e:
 				if e.args[0] == "math domain error":
 					pass
@@ -80,10 +80,3 @@ class sound_scanner:
 
 	def close(self):
 		self.p.terminate()
-
-
-admin_relay = rele()
-
-admin_scanner = sound_scanner(admin_relay.switch, 7)
-admin_scanner.start()
-admin_scanner.close()

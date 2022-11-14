@@ -25,11 +25,11 @@ class rele:
 		except:
 			traceback.print_exc()
 	
-	def switch(self, flag):
+	def switch(self, flag, sec = 0.1):
 		if flag:
-			self.set_on(0.1)
+			self.set_on(sec)
 		else:
-			self.set_off(0.1)
+			self.set_off(sec)
 
 	def close(self):
 		GPIO.cleanup()
