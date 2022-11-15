@@ -41,6 +41,7 @@ class sound_scanner:
 		equ = ["0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F","G","H","I","J"]
 		prom = [len(equ)]*40
 		index = 0
+		prev_level = 0
 		while self.stream.is_active():
 			try:
 				db = log10(self.rms) + 6
@@ -54,7 +55,11 @@ class sound_scanner:
 				if maximo < self.nivel_minimo:
 					nivel = 1
 
-
+				if abs(prev_level - int(nivel)) < 2:
+					time.sleep(0.001)
+					continue
+				else:
+					prev_level = int(nivel)
 				# print(f"\rSonando: {db > 0} --- anterior: {self.anterior} --- DB: {perfil}", end="") 
 				if nivel > self.nivel_minimo:
 					if nivel > self.anterior and self.estado == "calla":
